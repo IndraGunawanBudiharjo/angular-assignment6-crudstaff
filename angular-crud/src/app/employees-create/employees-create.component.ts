@@ -19,8 +19,8 @@ export class EmployeesCreateComponent implements OnInit {
   createForm = {
     inputData: new FormGroup({
       title: new FormControl('',[Validators.required]),
-      firstName: new FormControl('',[Validators.required]),
-      lastName: new FormControl(''),
+      firstName: new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z ]*')]),
+      lastName: new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z ]*')]),
       email: new FormControl('',[Validators.required, Validators.email]),
       role: new FormControl('this.Roles[0]',[Validators.required]),
       password: new FormControl('',[Validators.required,Validators.minLength(6)]),

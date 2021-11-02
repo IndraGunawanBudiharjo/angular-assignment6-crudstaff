@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RestApiService } from '../models/rest-api.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { matchValidator } from '../form-validators';
+import { Employees } from '../models/employees';
 
 @Component({
   selector: 'app-employees-edit',
@@ -18,8 +19,8 @@ export class EmployeesEditComponent implements OnInit {
   editForm = {
     inputData: new FormGroup({
       title: new FormControl('',[Validators.required]),
-      firstName: new FormControl('',[Validators.required]),
-      lastName: new FormControl(''),
+      firstName: new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z ]*')]),
+      lastName: new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z ]*')]),
       email: new FormControl('',[Validators.required, Validators.email]),
       role: new FormControl('this.Roles[0]',[Validators.required]),
       password: new FormControl('',[Validators.required,Validators.minLength(6)]),
@@ -37,7 +38,13 @@ export class EmployeesEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.restApi.getEmployee(this.id)
-    .subscribe( data => this.editForm.inputData = data);
+    .subscribe( data => {
+      this.editForm.inputData.controls['title'].setValue(data.title)
+      this.editForm.inputData.controls['firstName'].setValue(data.firstName)
+      this.editForm.inputData.controls['lastName'].setValue(data.lastName)
+      this.editForm.inputData.controls['email'].setValue(data.email)
+      this.editForm.inputData.controls['role'].setValue(data.role)
+    });
   }
 
   get title(){ return this.editForm.inputData.get('title') }
@@ -47,6 +54,9 @@ export class EmployeesEditComponent implements OnInit {
   get email(){ return this.editForm.inputData.get('email') }
   get password(){ return this.editForm.inputData.get('password') }
   get confirmPassword(){ return this.editForm.inputData.get('confirmPassword') }
+
+
+
 
 
   updateEmployee() {

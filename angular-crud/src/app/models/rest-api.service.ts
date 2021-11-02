@@ -29,7 +29,7 @@ export class RestApiService {
   }
 
   getEmployee(id: number): Observable<any> {
-    return this.http.get(this.apiUrl + '/users' + id).pipe(catchError(this.handleError));
+    return this.http.get(this.apiUrl + '/users/' + id).pipe(catchError(this.handleError));
   }
 
   updateEmployee(employee: Employees, id: number): Observable<any> {
@@ -38,7 +38,7 @@ export class RestApiService {
   }
 
 
-  deleteEmployee(id: number) {
+  deleteEmployee(id: number): Observable<any> {
     return this.http.delete(this.apiUrl + '/users/' + id).pipe(catchError(this.handleError));
   }
 
